@@ -50,6 +50,8 @@ class Actuator:
             sleep(2)
     
     def getSyringe(self):
+        """" Moves the piston head to touch where the syringe is"""
+        # TODO Needs to be calibrated
         self.forward(15)
         
     def pullSyringe(self):

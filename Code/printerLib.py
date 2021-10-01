@@ -6,6 +6,10 @@ class printer:
 
     def __init__(self):
         self.ser = Serial('/dev/ttyACM1', 115200)
+        # Note: After each use of send make sure the command is finished before 
+        # sending the next Gcode command
+        
+        # Calibrate the bottom 5 variables depending on coordiates
         self.vialPickupPos = [70,103,6]
         self.tipPickupPos = [51,103,6]
         self.vialDropoffPos = [[25,50,40], 
@@ -26,15 +30,18 @@ class printer:
         self.acidSetup()
 
     def send(self,Gcode):
+        """Sends the Gcode to printer in the corrent format"""
         self.ser.write(str.encode(Gcode))
 
     def home(self):
+        """Calibration of the printer makes sure everything is at (0,0,0)"""
         print("Homeing....")
         self.send("G28 \n")
         time.sleep(20)
         print("FINISHED Homeing....")
         
     def vialLiqiudPickup(self):
+        """moves to saftey height and then goes to liquid pickup location"""
         self.moveZ(48)
 
         self.moveX(self.vialPickupPos[0])
@@ -49,6 +56,7 @@ class printer:
 
     
     def pippeteTipPickup(self):
+        """moves to saftey height and then goes to pippete tip pickup location"""
         self.moveZ(40)
 
         self.moveX(self.tipPickupPos[0])
@@ -82,8 +90,8 @@ class printer:
 
 
     def acidSetup(self):
-        # go to waste location on the board 
-        pass
+        """moves to dump location"""
+        self.dump()
 
     def moveX(self,coord):
         self.send("G1 X"+ str(coord) + " \r \n")
@@ -96,6 +104,7 @@ class printer:
         time.sleep(10)
     
     def dump(self):
+        """moves to dump location"""
         self.moveZ(self.dumpPos[2])
         time.sleep(20)
         self.moveY(self.dumpPos[1])

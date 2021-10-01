@@ -3,7 +3,7 @@ from time import sleep
 
 class acidPump:
     def __init__(self):
-
+        """Pump class currently calibrated to do 1ml per second"""
         self.f = 33
         self.b = 35
         self.pwm = 37
@@ -14,11 +14,12 @@ class acidPump:
         self.p = GPIO.PWM(self.pwm, 50)
         self.p.start(2.5)
         
-        self.p.ChangeDutyCycle(46)
+        self.p.ChangeDutyCycle(46)#46-> 1ml per second dispense rate
         
         self.stop()
         
     def calibrate(self):
+         """runs the acid through all the pipe to get rid of air bubbles"""
         self.dispense(40)
         
     

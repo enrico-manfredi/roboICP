@@ -13,16 +13,16 @@ class LinearRail:
 
         GPIO.output(self.direction,GPIO.HIGH) #default direction is forward
 
-        self.position = 0
-        
-        ##why is position set to zero before self.calibrate is called?
-        
+        #TODO calibrate the two variables below:  steps_per_syringe-> number of steps to move from one syringe to another
+        # first_pos -> number of steps required to align the first syringe with the piston head
         self.steps_per_syringe = 50000 #note: steps are absolute not relative
         self.first_pos = 3600 * 5 ##what does this refer to? first syringe pos?
         
         ##how long is each step in mm?
 
         self.calibrate()
+
+        self.position = 0
 
     def calibrate(self):
         self.backward()
